@@ -2,9 +2,6 @@ package routes
 
 import (
 	"database/sql"
-	"github.com/ZoeAgustinatira/DentalOffice/cmd/server/handler"
-	"github.com/ZoeAgustinatira/DentalOffice/internal/dentist"
-	"github.com/ZoeAgustinatira/DentalOffice/internal/patient"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,7 +27,7 @@ func (r *router) MapRoutes() {
 }
 
 func (r *router) buildDentistRoutes() {
-	repo := dentist.NewRepository(r.db)
+	/*repo := dentist.NewRepository(r.db)
 	service := dentist.NewService(repo)
 	handler := handler.NewDentist(service)
 
@@ -41,11 +38,11 @@ func (r *router) buildDentistRoutes() {
 		bg.PUT("/:id", handler.Update())   //Ver bien naming
 		bg.PATCH("/:id", handler.Update()) //Ver bien naming
 		bg.DELETE("/:id", handler.Delete())
-	}
+	}*/
 }
 
 func (r *router) buildPatientRoutes() {
-	repo := patient.NewRepository(r.db)
+	/*repo := patient.NewRepository(r.db)
 	service := patient.NewService(repo)
 	handler := handler.NewPatient(service)
 
@@ -56,5 +53,5 @@ func (r *router) buildPatientRoutes() {
 		bg.PUT("/:id", handler.Update())   //Ver bien naming
 		bg.PATCH("/:id", handler.Update()) //Ver bien naming
 		bg.DELETE("/:id", handler.Delete())
-	}
+	}*/
 }
