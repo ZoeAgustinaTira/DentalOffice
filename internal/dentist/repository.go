@@ -52,7 +52,7 @@ func (r *repository) Save(ctx context.Context, d domain.Dentist) (int, error) {
 }
 
 func (r *repository) GetByID(ctx context.Context, id int) (domain.Dentist, error) {
-	row := r.db.QueryRow(GET_DENTIST_BY_ID)
+	row := r.db.QueryRow(GET_DENTIST_BY_ID, id)
 	d := domain.Dentist{}
 	err := row.Scan(&d.ID, &d.Name, &d.Surname, &d.Enrollment)
 	if err != nil {

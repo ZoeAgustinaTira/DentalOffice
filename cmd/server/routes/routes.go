@@ -24,6 +24,7 @@ func NewRouter(eng *gin.Engine, db *sql.DB) Router {
 }
 
 func (r *router) MapRoutes() {
+	r.rg = r.eng.Group("/dentaloffice")
 	r.buildDentistRoutes()
 	r.buildPatientRoutes()
 }
@@ -41,6 +42,7 @@ func (r *router) buildDentistRoutes() {
 		bg.PATCH("/:id", handler.Update()) //Ver bien naming
 		bg.DELETE("/:id", handler.Delete())
 	}
+
 }
 
 func (r *router) buildPatientRoutes() {
