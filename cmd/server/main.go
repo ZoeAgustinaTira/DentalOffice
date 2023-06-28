@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	db, _ := sql.Open("mysql", "root:root@tcp(localhost:3306)/dentaloffice")
+	db, _ := sql.Open("mysql", "root:1234@tcp(localhost:3306)/dentaloffice")
 	eng := gin.Default()
 
 	router := routes.NewRouter(eng, db)
