@@ -21,6 +21,7 @@ func NewPatient(p patient.Service) *Patient {
 
 func (p *Patient) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		println("GetByID")
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, err.Error()) //400

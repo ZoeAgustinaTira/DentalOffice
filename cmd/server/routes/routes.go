@@ -34,7 +34,7 @@ func (r *router) buildDentistRoutes() {
 	service := dentist.NewService(repo)
 	handler := handler.NewDentist(service)
 
-	bg := r.rg.Group("/dentists")
+	bg := r.eng.Group("/dentists")
 	{
 		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
@@ -49,7 +49,7 @@ func (r *router) buildPatientRoutes() {
 	service := patient.NewService(repo)
 	handler := handler.NewPatient(service)
 
-	bg := r.rg.Group("/patients")
+	bg := r.eng.Group("/patients")
 	{
 		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())

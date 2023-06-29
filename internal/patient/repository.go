@@ -16,11 +16,11 @@ type Repository interface {
 }
 
 const (
-	SAVE_PATIENT         = "INSERT INTO patients(name, surname, address,DNI,dischargeDate) VALUES (?,?,?,?,?);"
+	SAVE_PATIENT         = "INSERT INTO dentaloffice.patients(name, surname, address,DNI,dischargeDate) VALUES (?,?,?,?,?);"
 	GET_PATIENT_BY_ID    = "SELECT * FROM patients WHERE id = ?;"
-	UPDATE_PATIENT       = "UPDATE patients SET name = ?, surname = ?, address = ?, DNI = ?, dischargeDate = ? WHERE id = ?;"
-	DELETE_PATIENT_BY_ID = "DELETE FROM patients WHERE id = ?;"
-	EXIST_PATIENT        = "SELECT id FROM patients WHERE id = ?"
+	UPDATE_PATIENT       = "UPDATE dentaloffice.patients SET name = ?, surname = ?, address = ?, DNI = ?, dischargeDate = ? WHERE id = ?;"
+	DELETE_PATIENT_BY_ID = "DELETE FROM dentaloffice.patients WHERE id = ?;"
+	EXIST_PATIENT        = "SELECT id FROM dentaloffice.patients WHERE id = ?"
 )
 
 type repository struct {
