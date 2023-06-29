@@ -7,6 +7,7 @@ import (
 
 	_ "github.com/ZoeAgustinatira/DentalOffice/internal/patient"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/shift"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -41,15 +42,14 @@ func (r *router) buildDentistRoutes() {
 	{
 		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
-		//bg.PUT("/:id", handler.Update())   //Ver bien naming
-		bg.PATCH("/:id", handler.Update()) //Ver bien naming
+		bg.PUT("/all/:id", handler.UpdateAll()) //Ver bien naming
+		bg.PATCH("/:id", handler.Update())      //Ver bien naming
 		bg.DELETE("/:id", handler.Delete())
 	}
 
 }
 
 func (r *router) buildPatientRoutes() {
-
 	/*repo := patient.NewRepository(r.db)
 	service := patient.NewService(repo)
 	handler := handler.NewPatient(service)
