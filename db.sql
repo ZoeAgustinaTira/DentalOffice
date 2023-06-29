@@ -12,7 +12,6 @@ CREATE TABLE dentists(
                          enrollment  VARCHAR(50) NOT NULL
 );
 
-
 CREATE TABLE dentists
 (
     `id`       INT         NOT NULL PRIMARY KEY auto_increment,
@@ -35,8 +34,18 @@ CREATE TABLE shifts
 (
     `id` INT         NOT NULL PRIMARY KEY auto_increment,
     data VARCHAR(50) NOT NULL,
-    time VARCHAR(50) NOT NULL
+    time VARCHAR(50) NOT NULL,
+    dentist_id int not null,
+    patient_id int not null
+
 );
+
+ALTER TABLE shifts ADD CONSTRAINT FK_SHIFT_DENTIST
+    FOREIGN KEY (dentist_id) REFERENCES dentists(id);
+
+ALTER TABLE shifts ADD CONSTRAINT FK_SHIFT_PATIENT
+    FOREIGN KEY (patient_id) REFERENCES patients(id);
+
 
 INSERT INTO dentists (name, surname, enrollment)
 VALUES ('zoe', 'tira', '123');
