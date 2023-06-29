@@ -1,18 +1,17 @@
 package shift
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/domain"
 )
 
 type Repository interface {
-	Save(ctx context.Context, s domain.Shift) (int, error)
-	GetByID(ctx context.Context, id int) (domain.Shift, error)
-	Update(ctx context.Context, s domain.Shift) (domain.Shift, error)
-	Delete(ctx context.Context, id int) error
-	GetByDNI(ctx context.Context) (domain.Shift, error)
+	Save(s domain.Shift) (int, error)
+	GetByID(id int) (domain.Shift, error)
+	Update(domain.Shift) (domain.Shift, error)
+	Delete(id int) error
+	GetByDNI() (domain.Shift, error)
 	//Exists(ctx context.Context, enrollment string) bool
 }
 
@@ -22,7 +21,7 @@ const (
 	GET_SHIFT_BY_DNI   = "SELECT * FROM shifts s JOIN patients p ON p.id = s.patient_id where p.dni = ? GROUP BY p.dni;"
 	UPDATE_SHIFT       = "UPDATE shifts SET date = ?, time = ?, dentist_id = ?, patient_id = ? WHERE id = ?;"
 	DELETE_SHIFT_BY_ID = "DELETE FROM shifts WHERE id = ?;"
-	EXIST_SHIFT        = "SELECT enrollment FROM shifts WHERE enrollment = ?"
+	//EXIST_SHIFT        = "SELECT enrollment FROM shifts WHERE enrollment = ?"
 )
 
 type repository struct {
@@ -35,7 +34,7 @@ func NewRepository(db *sql.DB) Repository {
 	}
 }
 
-func (r *repository) Save(ctx context.Context, s domain.Shift) (int, error) {
+func (r *repository) Save(s domain.Shift) (int, error) {
 	stmt, err := r.db.Prepare(SAVE_SHIFT)
 	if err != nil {
 		return 0, err
@@ -53,7 +52,7 @@ func (r *repository) Save(ctx context.Context, s domain.Shift) (int, error) {
 	return int(id), nil
 }
 
-func (r *repository) GetByID(ctx context.Context, id int) (domain.Shift, error) {
+func (r *repository) GetByID(id int) (domain.Shift, error) {
 	row := r.db.QueryRow(GET_SHIFT_BY_ID, id)
 	s := domain.Shift{}
 	err := row.Scan(&s.ID, &s.Date, &s.Time, &s.DentistID, s.PatientID)
@@ -64,7 +63,7 @@ func (r *repository) GetByID(ctx context.Context, id int) (domain.Shift, error) 
 	return s, nil
 }
 
-func (r *repository) GetByDNI(ctx context.Context) (domain.Shift, error) {
+func (r *repository) GetByDNI() (domain.Shift, error) {
 	row := r.db.QueryRow(GET_SHIFT_BY_DNI)
 	s := domain.Shift{}
 	err := row.Scan(&s.ID, &s.Date, &s.Time, &s.DentistID, s.PatientID)
@@ -75,13 +74,13 @@ func (r *repository) GetByDNI(ctx context.Context) (domain.Shift, error) {
 	return s, nil
 }
 
-func (r *repository) Update(ctx context.Context, s domain.Shift) (domain.Shift, error) {
+func (r *repository) Update(s domain.Shift) (domain.Shift, error) {
 	stmt, err := r.db.Prepare(UPDATE_SHIFT)
 	if err != nil {
 		return domain.Shift{}, err
 	}
 
-	res, err := stmt.Exec(&s.Date, &s.Time, &s.DentistID, &s.PatientID)
+	res, err := stmt.Exec(&s.Date, &s.Time, &s.DentistID, &s.PatientID, &s.ID)
 	if err != nil {
 		return domain.Shift{}, err
 	}
@@ -94,7 +93,7 @@ func (r *repository) Update(ctx context.Context, s domain.Shift) (domain.Shift, 
 	return s, nil
 }
 
-func (r *repository) Delete(ctx context.Context, id int) error {
+func (r *repository) Delete(id int) error {
 	stmt, err := r.db.Prepare(DELETE_SHIFT_BY_ID)
 	if err != nil {
 		return err
