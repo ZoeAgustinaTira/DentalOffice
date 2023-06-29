@@ -10,7 +10,6 @@ type Repository interface {
 	Save(d domain.Dentist) (int, error)
 	GetByID(id int) (domain.Dentist, error)
 	Update(d domain.Dentist) (domain.Dentist, error)
-	//UpdateAll(d domain.Dentist) (domain.Dentist, error)
 	Delete(id int) error
 	Exists(enrollment string) bool
 }
@@ -63,25 +62,6 @@ func (r *repository) GetByID(id int) (domain.Dentist, error) {
 }
 
 func (r *repository) Update(d domain.Dentist) (domain.Dentist, error) {
-	stmt, err := r.db.Prepare(UPDATE_DENTIST)
-	if err != nil {
-		return domain.Dentist{}, err
-	}
-
-	res, err := stmt.Exec(&d.Name, &d.Surname, &d.Enrollment, &d.ID)
-	if err != nil {
-		return domain.Dentist{}, err
-	}
-
-	_, err = res.RowsAffected()
-	if err != nil {
-		return domain.Dentist{}, err
-	}
-
-	return d, nil
-}
-
-func (r *repository) UpdateAll(d domain.Dentist) (domain.Dentist, error) {
 	stmt, err := r.db.Prepare(UPDATE_DENTIST)
 	if err != nil {
 		return domain.Dentist{}, err
