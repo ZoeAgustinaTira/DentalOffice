@@ -11,6 +11,7 @@ type Repository interface {
 	Save(ctx context.Context, d domain.Dentist) (int, error)
 	GetByID(ctx context.Context, id int) (domain.Dentist, error)
 	Update(ctx context.Context, d domain.Dentist) (domain.Dentist, error)
+	//UpdateAll(ctx context.Context, d domain.Dentist) (domain.Dentist, error)
 	Delete(ctx context.Context, id int) error
 	Exists(ctx context.Context, enrollment string) bool
 }
@@ -80,6 +81,26 @@ func (r *repository) Update(ctx context.Context, d domain.Dentist) (domain.Denti
 
 	return d, nil
 }
+
+func (r *repository) UpdateAll(ctx context.Context, d domain.Dentist) (domain.Dentist, error) {
+	stmt, err := r.db.Prepare(UPDATE_DENTIST)
+	if err != nil {
+		return domain.Dentist{}, err
+	}
+
+	res, err := stmt.Exec(&d.Name, &d.Surname, &d.Enrollment)
+	if err != nil {
+		return domain.Dentist{}, err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return domain.Dentist{}, err
+	}
+
+	return d, nil
+}
+
 func (r *repository) Delete(ctx context.Context, id int) error {
 	stmt, err := r.db.Prepare(DELETE_DENTIST_BY_ID)
 	if err != nil {

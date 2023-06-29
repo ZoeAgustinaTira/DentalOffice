@@ -103,6 +103,54 @@ func (d *Dentist) Update() gin.HandlerFunc {
 	}
 }
 
+func (d *Dentist) UpdateAll() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var req domain.Dentist
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, err.Error()) //400
+			return
+		}
+
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, err.Error()) //400
+			return
+		}
+
+		req.ID = id
+
+		var fields []string
+		if req.Name == "" {
+			fields = append(fields, "name")
+		}
+
+		if req.Surname == "" {
+			fields = append(fields, "surname")
+		}
+
+		if req.Enrollment == "" {
+			fields = append(fields, "enrollment")
+		}
+		if len(fields) != 0 {
+			c.JSON(http.StatusBadRequest, fmt.Sprintf("field is missing: %v", fields)) //400
+		}
+
+		dentistUpdate, err := d.dentistService.UpdateAll(c, req)
+		if err != nil {
+			c.JSON(http.StatusNotFound, err.Error()) //404
+			return
+		}
+
+		var d domain.Dentist
+
+		if dentistUpdate == d {
+			c.JSON(http.StatusNotFound, err.Error()) //404
+		}
+
+		c.JSON(http.StatusOK, dentistUpdate)
+	}
+}
+
 func (d *Dentist) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))

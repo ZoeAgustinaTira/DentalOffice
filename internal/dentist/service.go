@@ -9,6 +9,7 @@ type Service interface {
 	Save(ctx context.Context, d domain.Dentist) (domain.Dentist, error)
 	GetByID(ctx context.Context, id int) (domain.Dentist, error)
 	Update(ctx context.Context, d domain.Dentist) (domain.Dentist, error)
+	UpdateAll(ctx context.Context, d domain.Dentist) (domain.Dentist, error)
 	Delete(ctx context.Context, id int) error
 	Exists(ctx context.Context, enrollment string) bool
 }
@@ -65,7 +66,15 @@ func (s *service) Update(ctx context.Context, d domain.Dentist) (domain.Dentist,
 	dentistToUpdate := domain.NewDentist(d.Name, d.Surname, d.Enrollment)
 	dentistToUpdate.ID = d.ID
 
-	dUpdate, err := s.repository.Update(ctx, dentist)
+	dUpdate, err := s.repository.Update(ctx, *dentistToUpdate)
+	if err != nil {
+		return domain.Dentist{}, err
+	}
+	return dUpdate, nil
+}
+
+func (s *service) UpdateAll(ctx context.Context, d domain.Dentist) (domain.Dentist, error) {
+	dUpdate, err := s.repository.Update(ctx, d)
 	if err != nil {
 		return domain.Dentist{}, err
 	}
