@@ -74,7 +74,7 @@ func (s *service) Update(ctx context.Context, d domain.Dentist) (domain.Dentist,
 }
 
 func (s *service) UpdateAll(ctx context.Context, d domain.Dentist) (domain.Dentist, error) {
-	dUpdate, err := s.repository.Update(ctx, d)
+	dUpdate, err := s.repository.UpdateAll(ctx, d)
 
 	if err != nil {
 		return domain.Dentist{}, err

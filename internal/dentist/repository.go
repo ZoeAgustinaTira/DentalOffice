@@ -11,7 +11,7 @@ type Repository interface {
 	Save(ctx context.Context, d domain.Dentist) (int, error)
 	GetByID(ctx context.Context, id int) (domain.Dentist, error)
 	Update(ctx context.Context, d domain.Dentist) (domain.Dentist, error)
-	//UpdateAll(ctx context.Context, d domain.Dentist) (domain.Dentist, error)
+	UpdateAll(ctx context.Context, d domain.Dentist) (domain.Dentist, error)
 	Delete(ctx context.Context, id int) error
 	Exists(ctx context.Context, enrollment string) bool
 }
@@ -69,7 +69,7 @@ func (r *repository) Update(ctx context.Context, d domain.Dentist) (domain.Denti
 		return domain.Dentist{}, err
 	}
 
-	res, err := stmt.Exec(&d.ID, &d.Name, &d.Surname, &d.Enrollment)
+	res, err := stmt.Exec(&d.Name, &d.Surname, &d.Enrollment, &d.ID)
 	if err != nil {
 		return domain.Dentist{}, err
 	}
@@ -88,7 +88,7 @@ func (r *repository) UpdateAll(ctx context.Context, d domain.Dentist) (domain.De
 		return domain.Dentist{}, err
 	}
 
-	res, err := stmt.Exec(&d.Name, &d.Surname, &d.Enrollment)
+	res, err := stmt.Exec(&d.Name, &d.Surname, &d.Enrollment, &d.ID)
 	if err != nil {
 		return domain.Dentist{}, err
 	}
