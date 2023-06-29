@@ -27,7 +27,7 @@ func (d *Dentist) GetByID() gin.HandlerFunc {
 			return
 		}
 
-		dentist, err := d.dentistService.GetByID(c, id)
+		dentist, err := d.dentistService.GetByID(id)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, err.Error()) //400
 			return
@@ -55,13 +55,13 @@ func (d *Dentist) Create() gin.HandlerFunc {
 			return
 		}
 
-		exist := d.dentistService.Exists(c, req.Enrollment)
+		exist := d.dentistService.Exists(req.Enrollment)
 		if exist {
 			c.JSON(http.StatusConflict, "error: the dentist already exist") //409
 			return
 		}
 
-		newDentist, err := d.dentistService.Save(c, req)
+		newDentist, err := d.dentistService.Save(req)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, err.Error()) //500
 			return
@@ -87,7 +87,55 @@ func (d *Dentist) Update() gin.HandlerFunc {
 
 		req.ID = id
 
-		dentistUpdate, err := d.dentistService.Update(c, req)
+		dentistUpdate, err := d.dentistService.Update(req)
+		if err != nil {
+			c.JSON(http.StatusNotFound, err.Error()) //404
+			return
+		}
+
+		var d domain.Dentist
+
+		if dentistUpdate == d {
+			c.JSON(http.StatusNotFound, err.Error()) //404
+		}
+
+		c.JSON(http.StatusOK, dentistUpdate)
+	}
+}
+
+func (d *Dentist) UpdateAll() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var req domain.Dentist
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, err.Error()) //400
+			return
+		}
+
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, err.Error()) //400
+			return
+		}
+
+		req.ID = id
+
+		var fields []string
+		if req.Name == "" {
+			fields = append(fields, "name")
+		}
+
+		if req.Surname == "" {
+			fields = append(fields, "surname")
+		}
+
+		if req.Enrollment == "" {
+			fields = append(fields, "enrollment")
+		}
+		if len(fields) != 0 {
+			c.JSON(http.StatusBadRequest, fmt.Sprintf("field is missing: %v", fields)) //400
+		}
+
+		dentistUpdate, err := d.dentistService.UpdateAll(req)
 		if err != nil {
 			c.JSON(http.StatusNotFound, err.Error()) //404
 			return
@@ -111,7 +159,7 @@ func (d *Dentist) Delete() gin.HandlerFunc {
 			return
 		}
 
-		err = d.dentistService.Delete(c, id)
+		err = d.dentistService.Delete(id)
 		if err != nil {
 			c.JSON(http.StatusNotFound, err.Error()) //404
 			return
