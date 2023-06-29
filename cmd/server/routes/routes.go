@@ -24,6 +24,7 @@ func NewRouter(eng *gin.Engine, db *sql.DB) Router {
 }
 
 func (r *router) MapRoutes() {
+	r.rg = r.eng.Group("/dentaloffice")
 	r.buildDentistRoutes()
 	r.buildPatientRoutes()
 }
