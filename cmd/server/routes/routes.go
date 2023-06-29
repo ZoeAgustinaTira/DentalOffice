@@ -45,7 +45,7 @@ func (r *router) buildDentistRoutes() {
 }
 
 func (r *router) buildPatientRoutes() {
-/*	repo := patient.NewRepository(r.db)
+	repo := patient.NewRepository(r.db)
 	service := patient.NewService(repo)
 	handler := handler.NewPatient(service)
 
@@ -55,6 +55,6 @@ func (r *router) buildPatientRoutes() {
 		bg.GET("/:id", handler.GetByID())
 		bg.PUT("/:id", handler.Update())   //Ver bien naming
 		bg.PATCH("/:id", handler.Update()) //Ver bien naming
-		bg.DELETE("/:id", handler.Delete())*/
+		bg.DELETE("/:id", handler.Delete())
 	}
 }
