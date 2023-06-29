@@ -68,7 +68,7 @@ func (r *repository) Update(ctx context.Context, d domain.Dentist) (domain.Denti
 		return domain.Dentist{}, err
 	}
 
-	res, err := stmt.Exec(&d.Name, &d.Surname, &d.Enrollment)
+	res, err := stmt.Exec(&d.ID, &d.Name, &d.Surname, &d.Enrollment)
 	if err != nil {
 		return domain.Dentist{}, err
 	}
