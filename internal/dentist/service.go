@@ -65,7 +65,7 @@ func (s *service) Update(ctx context.Context, d domain.Dentist) (domain.Dentist,
 	dentistToUpdate := domain.NewDentist(d.Name, d.Surname, d.Enrollment)
 	dentistToUpdate.ID = d.ID
 
-	dUpdate, err := s.repository.Update(ctx, dentist)
+	dUpdate, err := s.repository.Update(ctx, dentistToUpdate)
 	if err != nil {
 		return domain.Dentist{}, err
 	}
