@@ -10,7 +10,7 @@ type Service interface {
 	GetByID(ctx context.Context, id int) (domain.Patient, error)
 	Update(ctx context.Context, p domain.Patient) (domain.Patient, error)
 	Delete(ctx context.Context, id int) error
-	Exists(ctx context.Context, dni string) bool
+	Exists(dni string) bool
 }
 
 type service struct {
@@ -86,7 +86,7 @@ func (s *service) Delete(ctx context.Context, id int) error {
 	return nil
 }
 
-func (s *service) Exists(ctx context.Context, dni string) bool {
-	exist := s.repository.Exists(ctx, dni)
+func (s *service) Exists(DNI string) bool {
+	exist := s.repository.Exists(DNI)
 	return exist
 }

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"github.com/ZoeAgustinatira/DentalOffice/cmd/server/handler"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/dentist"
+	"github.com/ZoeAgustinatira/DentalOffice/internal/patient"
 	"github.com/gin-gonic/gin"
 )
 
@@ -45,16 +46,16 @@ func (r *router) buildDentistRoutes() {
 }
 
 func (r *router) buildPatientRoutes() {
-	/*	repo := patient.NewRepository(r.db)
-		service := patient.NewService(repo)
-		handler := handler.NewPatient(service)
+	repo := patient.NewRepository(r.db)
+	service := patient.NewService(repo)
+	handler := handler.NewPatient(service)
 
-		bg := r.rg.Group("/patients")
-		{
-			bg.POST("/", handler.Create())
-			bg.GET("/:id", handler.GetByID())
-			bg.PUT("/:id", handler.Update())   //Ver bien naming
-			bg.PATCH("/:id", handler.Update()) //Ver bien naming
-			bg.DELETE("/:id", handler.Delete())
-		}*/
+	bg := r.rg.Group("/patients")
+	{
+		bg.POST("/", handler.Create())
+		bg.GET("/:id", handler.GetByID())
+		bg.PUT("/:id", handler.Update())   //Ver bien naming
+		bg.PATCH("/:id", handler.Update()) //Ver bien naming
+		bg.DELETE("/:id", handler.Delete())
+	}
 }

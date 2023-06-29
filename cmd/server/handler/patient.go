@@ -56,7 +56,7 @@ func (p *Patient) Create() gin.HandlerFunc {
 			return
 		}
 
-		exist := p.patientService.Exists(c, req.DNI)
+		exist := p.patientService.Exists(req.DNI)
 		if exist {
 			c.JSON(http.StatusConflict, "error: the patient already exist") //409
 			return
