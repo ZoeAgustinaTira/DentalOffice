@@ -4,12 +4,14 @@ import (
 	"database/sql"
 	"github.com/ZoeAgustinatira/DentalOffice/cmd/server/handler"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/shift"
+	"github.com/ZoeAgustinatira/DentalOffice/internal/dentist"
 	"github.com/gin-gonic/gin"
 )
 
 type Router interface {
 	MapRoutes()
 }
+
 type router struct {
 	eng *gin.Engine
 	rg  *gin.RouterGroup
@@ -25,12 +27,11 @@ func NewRouter(eng *gin.Engine, db *sql.DB) Router {
 
 func (r *router) MapRoutes() {
 	r.rg = r.eng.Group("/dentaloffice")
-	/*r.buildDentistRoutes()
-	r.buildPatientRoutes()*/
-	r.buildShiftRoutes()
+	r.buildDentistRoutes()
+	r.buildPatientRoutes()
+  r.buildShiftRoutes()
 }
 
-/*
 func (r *router) buildDentistRoutes() {
 	repo := dentist.NewRepository(r.db)
 	service := dentist.NewService(repo)
@@ -40,8 +41,8 @@ func (r *router) buildDentistRoutes() {
 	{
 		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
-		bg.PUT("/:id", handler.Update())   //Ver bien naming
-		bg.PATCH("/:id", handler.Update()) //Ver bien naming
+		bg.PUT("/all/:id", handler.UpdateAll())
+		bg.PATCH("/:id", handler.Update())
 		bg.DELETE("/:id", handler.Delete())
 	}
 }
@@ -55,11 +56,11 @@ func (r *router) buildPatientRoutes() {
 	{
 		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
-		bg.PUT("/:id", handler.Update())   //Ver bien naming
-		bg.PATCH("/:id", handler.Update()) //Ver bien naming
+		bg.PUT("/:id", handler.Update())
+		bg.PATCH("/:id", handler.Update())
 		bg.DELETE("/:id", handler.Delete())
 	}
-}*/
+}
 
 func (r *router) buildShiftRoutes() {
 	repo := shift.NewRepository(r.db)
@@ -70,6 +71,7 @@ func (r *router) buildShiftRoutes() {
 	{
 		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
+    bg.GET("/bydni/:dni", handler.GetByDNI())
 		bg.PUT("/all/:id", handler.Update())
 		bg.PATCH("/:id", handler.Update())
 		bg.DELETE("/:id", handler.Delete())
