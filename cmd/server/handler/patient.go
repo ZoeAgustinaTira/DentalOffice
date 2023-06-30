@@ -28,7 +28,7 @@ func (p *Patient) GetByID() gin.HandlerFunc {
 			return
 		}
 
-		patient, err := p.patientService.GetByID(c, id)
+		patient, err := p.patientService.GetByID(id)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, err.Error()) //400
 			return
@@ -88,7 +88,7 @@ func (p *Patient) Update() gin.HandlerFunc {
 
 		req.ID = id
 
-		patientUpdate, err := p.patientService.Update(c, req)
+		patientUpdate, err := p.patientService.Update(req)
 		if err != nil {
 			c.JSON(http.StatusNotFound, err.Error()) //404
 			return

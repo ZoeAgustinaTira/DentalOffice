@@ -9,8 +9,8 @@ import (
 
 type Repository interface {
 	Save(ctx context.Context, p domain.Patient) (int, error)
-	GetByID(ctx context.Context, id int) (domain.Patient, error)
-	Update(ctx context.Context, p domain.Patient) (domain.Patient, error)
+	GetByID(id int) (domain.Patient, error)
+	Update(p domain.Patient) (domain.Patient, error)
 	Delete(ctx context.Context, id int) error
 	Exists(DNI string) bool
 }
@@ -51,7 +51,7 @@ func (r *repository) Save(ctx context.Context, p domain.Patient) (int, error) {
 	return int(id), nil
 }
 
-func (r *repository) GetByID(ctx context.Context, id int) (domain.Patient, error) {
+func (r *repository) GetByID(id int) (domain.Patient, error) {
 	row := r.db.QueryRow(GET_PATIENT_BY_ID, id)
 	p := domain.Patient{}
 	err := row.Scan(&p.ID, &p.Name, &p.Surname, &p.Address, &p.DNI, &p.DischargeDate)
@@ -62,13 +62,13 @@ func (r *repository) GetByID(ctx context.Context, id int) (domain.Patient, error
 	return p, nil
 }
 
-func (r *repository) Update(ctx context.Context, p domain.Patient) (domain.Patient, error) {
-	stmt, err := r.db.Prepare(UPDATE_PATIENT)
+func (r *repository) Update(p domain.Patient) (domain.Patient, error) {
+	stmt, err := r.db.Prepare(UPDATE_PATIENT) //Asegúrate de tener una constante SQL apropiada para esto
 	if err != nil {
 		return domain.Patient{}, err
 	}
 
-	res, err := stmt.Exec(&p.ID, &p.Name, &p.Surname, &p.Address, &p.DNI, &p.DischargeDate)
+	res, err := stmt.Exec(&p.Name, &p.Surname, &p.Address, &p.DNI, &p.DischargeDate, &p.ID)
 	if err != nil {
 		return domain.Patient{}, err
 	}

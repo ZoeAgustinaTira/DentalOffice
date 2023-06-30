@@ -7,8 +7,8 @@ import (
 
 type Service interface {
 	Save(ctx context.Context, p domain.Patient) (domain.Patient, error)
-	GetByID(ctx context.Context, id int) (domain.Patient, error)
-	Update(ctx context.Context, p domain.Patient) (domain.Patient, error)
+	GetByID(id int) (domain.Patient, error)
+	Update(p domain.Patient) (domain.Patient, error)
 	Delete(ctx context.Context, id int) error
 	Exists(dni string) bool
 }
@@ -36,8 +36,8 @@ func (s *service) Save(ctx context.Context, p domain.Patient) (domain.Patient, e
 	return *newPatient, nil
 }
 
-func (s *service) GetByID(ctx context.Context, id int) (domain.Patient, error) {
-	patient, err := s.repository.GetByID(ctx, id)
+func (s *service) GetByID(id int) (domain.Patient, error) {
+	patient, err := s.repository.GetByID(id)
 	if err != nil {
 		return domain.Patient{}, err
 	}
@@ -45,8 +45,8 @@ func (s *service) GetByID(ctx context.Context, id int) (domain.Patient, error) {
 	return patient, nil
 }
 
-func (s *service) Update(ctx context.Context, p domain.Patient) (domain.Patient, error) {
-	patient, err := s.GetByID(ctx, p.ID)
+func (s *service) Update(p domain.Patient) (domain.Patient, error) {
+	patient, err := s.GetByID(p.ID)
 	if err != nil {
 		return domain.Patient{}, err
 	}
@@ -70,7 +70,7 @@ func (s *service) Update(ctx context.Context, p domain.Patient) (domain.Patient,
 	patientToUpdate := domain.NewPatient(p.Name, p.Surname, p.Address, p.DNI, p.DischargeDate)
 	patientToUpdate.ID = p.ID
 
-	pUpdate, err := s.repository.Update(ctx, patient)
+	pUpdate, err := s.repository.Update(*patientToUpdate)
 	if err != nil {
 		return domain.Patient{}, err
 	}
