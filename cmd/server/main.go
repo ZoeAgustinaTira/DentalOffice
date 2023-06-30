@@ -1,18 +1,17 @@
 package main
 
 import (
-	"database/sql"
+	"github.com/ZoeAgustinatira/DentalOffice/cmd/config"
 	"github.com/ZoeAgustinatira/DentalOffice/cmd/server/routes"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"log"
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:my-secret-pw@tcp(localhost:3306)/dentaloffice")
-
+	config.LoadConfigFromFile()
+	db, err := config.ConnectDatabase()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	eng := gin.Default()
 	router := routes.NewRouter(eng, db)
