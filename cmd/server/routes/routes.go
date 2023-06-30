@@ -5,6 +5,7 @@ import (
 	"github.com/ZoeAgustinatira/DentalOffice/cmd/server/handler"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/shift"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/dentist"
+	"github.com/ZoeAgustinatira/DentalOffice/internal/patient"
 	"github.com/gin-gonic/gin"
 )
 
