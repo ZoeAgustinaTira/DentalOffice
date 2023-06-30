@@ -11,17 +11,15 @@ type Repository interface {
 	GetByID(id int) (domain.Shift, error)
 	Update(domain.Shift) (domain.Shift, error)
 	Delete(id int) error
-	GetByDNI() (domain.Shift, error)
-	//Exists(ctx context.Context, enrollment string) bool
+	GetByDNI(dni string) (domain.Shift, error)
 }
 
 const (
-	SAVE_SHIFT         = "INSERT INTO shifts(date, time, dentist_id, patient_id) VALUES (?, ?, ?, ?);"
+	SAVE_SHIFT         = "INSERT INTO shifts(data, time, dentist_id, patient_id) VALUES (?, ?, ?, ?);"
 	GET_SHIFT_BY_ID    = "SELECT * FROM shifts WHERE id = ?;"
-	GET_SHIFT_BY_DNI   = "SELECT * FROM shifts s JOIN patients p ON p.id = s.patient_id where p.dni = ? GROUP BY p.dni;"
-	UPDATE_SHIFT       = "UPDATE shifts SET date = ?, time = ?, dentist_id = ?, patient_id = ? WHERE id = ?;"
+	GET_SHIFT_BY_DNI   = "SELECT s.* FROM shifts s INNER JOIN patients p ON p.id = s.patient_id where p.dni = ? GROUP BY p.dni;"
+	UPDATE_SHIFT       = "UPDATE shifts SET data = ?, time = ?, dentist_id = ?, patient_id = ? WHERE id = ?;"
 	DELETE_SHIFT_BY_ID = "DELETE FROM shifts WHERE id = ?;"
-	//EXIST_SHIFT        = "SELECT enrollment FROM shifts WHERE enrollment = ?"
 )
 
 type repository struct {
@@ -55,7 +53,7 @@ func (r *repository) Save(s domain.Shift) (int, error) {
 func (r *repository) GetByID(id int) (domain.Shift, error) {
 	row := r.db.QueryRow(GET_SHIFT_BY_ID, id)
 	s := domain.Shift{}
-	err := row.Scan(&s.ID, &s.Date, &s.Time, &s.DentistID, s.PatientID)
+	err := row.Scan(&s.ID, &s.Date, &s.Time, &s.DentistID, &s.PatientID)
 	if err != nil {
 		return s, err
 	}
@@ -63,12 +61,20 @@ func (r *repository) GetByID(id int) (domain.Shift, error) {
 	return s, nil
 }
 
-func (r *repository) GetByDNI() (domain.Shift, error) {
-	row := r.db.QueryRow(GET_SHIFT_BY_DNI)
+func (r *repository) GetByDNI(dni string) (domain.Shift, error) {
 	s := domain.Shift{}
-	err := row.Scan(&s.ID, &s.Date, &s.Time, &s.DentistID, s.PatientID)
+
+	row, err := r.db.Query(GET_SHIFT_BY_DNI, dni)
 	if err != nil {
 		return s, err
+	}
+
+	for row.Next() {
+		err := row.Scan(&s.ID, &s.Date, &s.Time, &s.DentistID, &s.PatientID)
+		if err != nil {
+			return s, err
+		}
+
 	}
 
 	return s, nil
@@ -115,11 +121,3 @@ func (r *repository) Delete(id int) error {
 
 	return nil
 }
-
-/*
-func (r *repository) Exists(ctx context.Context, enrollment string) bool {
-	row := r.db.QueryRow(EXIST_DENTIST, enrollment)
-	err := row.Scan(&enrollment)
-	return err == nil
-}
-*/

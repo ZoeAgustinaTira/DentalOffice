@@ -10,8 +10,7 @@ type Service interface {
 	Update(s domain.Shift) (domain.Shift, error)
 	UpdateAll(s domain.Shift) (domain.Shift, error)
 	Delete(id int) error
-	GetByDNI() (domain.Shift, error)
-	//Exists(ctx context.Context, enrollment string) bool
+	GetByDNI(dni string) (domain.Shift, error)
 }
 
 type service struct {
@@ -25,8 +24,6 @@ func NewService(r Repository) Service {
 }
 
 func (s *service) Save(sh domain.Shift) (domain.Shift, error) {
-	//newDentist := domain.n(d.Name, d.Surname, d.Enrollment)
-
 	id, err := s.repository.Save(sh)
 	if err != nil {
 		return domain.Shift{}, err
@@ -47,8 +44,8 @@ func (s *service) GetByID(id int) (domain.Shift, error) {
 
 }
 
-func (s *service) GetByDNI() (domain.Shift, error) {
-	shift, err := s.repository.GetByDNI()
+func (s *service) GetByDNI(dni string) (domain.Shift, error) {
+	shift, err := s.repository.GetByDNI(dni)
 	if err != nil {
 		return domain.Shift{}, err
 	}
@@ -75,9 +72,6 @@ func (s *service) Update(sh domain.Shift) (domain.Shift, error) {
 		sh.PatientID = shift.PatientID
 	}
 
-	//	dentistToUpdate := domain.NewDentist(d.Name, d.Surname, d.Enrollment)
-	//dentistToUpdate.ID = d.ID
-
 	shUpdate, err := s.repository.Update(shift)
 	if err != nil {
 		return domain.Shift{}, err
@@ -101,10 +95,3 @@ func (s *service) Delete(id int) error {
 
 	return nil
 }
-
-/*
-func (s *service) Exists(ctx context.Context, enrollment string) bool {
-	exist := s.repository.Exists(ctx, enrollment)
-	return exist
-}
-*/
