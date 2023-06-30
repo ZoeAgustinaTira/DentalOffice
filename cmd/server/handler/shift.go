@@ -42,6 +42,24 @@ func (s *Shift) GetByID() gin.HandlerFunc {
 	}
 }
 
+func (s *Shift) GetByDNI() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		dni := c.Param("dni")
+
+		shift, err := s.shiftService.GetByDNI(dni)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, err.Error()) //400
+			return
+		}
+
+		var sh domain.Shift
+		if shift == sh {
+			c.JSON(http.StatusNotFound, err.Error()) //404
+		}
+
+		c.JSON(http.StatusOK, shift)
+	}
+}
 func (s *Shift) Create() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req domain.Shift
