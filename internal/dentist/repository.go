@@ -21,7 +21,7 @@ const (
 	UPDATE_DENTIST       = "UPDATE dentists SET name = ?, surname = ?, enrollment = ? WHERE id = ?;"
 	DELETE_DENTIST_BY_ID = "DELETE FROM dentists WHERE id = ?;"
 	EXIST_DENTIST        = "SELECT enrollment FROM dentists WHERE enrollment = ?"
-	HAS_SHIFT            = "SELECT d.* FROM dentists d INNER JOIN shifts s ON d.id = s.dentist_id WHERE dentist_id = d.id;"
+	HAS_SHIFT            = "SELECT d.* FROM dentists d INNER JOIN shifts s ON d.id = s.dentist_id WHERE dentist_id = ?;"
 )
 
 type repository struct {

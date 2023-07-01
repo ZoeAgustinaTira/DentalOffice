@@ -22,7 +22,7 @@ const (
 	UPDATE_PATIENT       = "UPDATE patients SET name = ?, surname = ?, address = ?, DNI = ?, dischargeDate = ? WHERE id = ?;"
 	DELETE_PATIENT_BY_ID = "DELETE FROM patients WHERE id = ?;"
 	EXIST_PATIENT        = "SELECT DNI FROM patients WHERE DNI = ?"
-	HAS_SHIFT            = "SELECT p.* FROM patients p INNER JOIN shifts s ON p.id = s.patient_id WHERE patient_id = p.id;"
+	HAS_SHIFT            = "SELECT p.* FROM patients p INNER JOIN shifts s ON p.id = s.patient_id WHERE patient_id = ?;"
 )
 
 type repository struct {
