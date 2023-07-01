@@ -2,10 +2,11 @@ package routes
 
 import (
 	"database/sql"
+	"github.com/ZoeAgustinatira/DentalOffice/cmd/middleware"
 	"github.com/ZoeAgustinatira/DentalOffice/cmd/server/handler"
-	"github.com/ZoeAgustinatira/DentalOffice/internal/shift"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/dentist"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/patient"
+	"github.com/ZoeAgustinatira/DentalOffice/internal/shift"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,7 +31,7 @@ func (r *router) MapRoutes() {
 	r.rg = r.eng.Group("/dentaloffice")
 	r.buildDentistRoutes()
 	r.buildPatientRoutes()
-  r.buildShiftRoutes()
+	r.buildShiftRoutes()
 }
 
 func (r *router) buildDentistRoutes() {
@@ -39,12 +40,14 @@ func (r *router) buildDentistRoutes() {
 	handler := handler.NewDentist(service)
 
 	bg := r.rg.Group("/dentists")
+	auth := r.rg.Group("/dentists", middleware.TokenAuthMiddleware())
 	{
-		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
-		bg.PUT("/all/:id", handler.UpdateAll())
-		bg.PATCH("/:id", handler.Update())
-		bg.DELETE("/:id", handler.Delete())
+
+		auth.POST("/", handler.Create())
+		auth.PUT("/all/:id", handler.UpdateAll())
+		auth.PATCH("/:id", handler.Update())
+		auth.DELETE("/:id", handler.Delete())
 	}
 }
 
@@ -54,12 +57,14 @@ func (r *router) buildPatientRoutes() {
 	handler := handler.NewPatient(service)
 
 	bg := r.rg.Group("/patients")
+	auth := r.rg.Group("/patients", middleware.TokenAuthMiddleware())
 	{
-		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
-		bg.PUT("/:id", handler.Update())
-		bg.PATCH("/:id", handler.Update())
-		bg.DELETE("/:id", handler.Delete())
+
+		auth.POST("/", handler.Create())
+		auth.PUT("/:id", handler.Update())
+		auth.PATCH("/:id", handler.Update())
+		auth.DELETE("/:id", handler.Delete())
 	}
 }
 
@@ -69,12 +74,14 @@ func (r *router) buildShiftRoutes() {
 	handler := handler.NewShift(service)
 
 	bg := r.rg.Group("/shifts")
+	auth := r.rg.Group("/shifts", middleware.TokenAuthMiddleware())
 	{
-		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
-    bg.GET("/bydni/:dni", handler.GetByDNI())
-		bg.PUT("/all/:id", handler.Update())
-		bg.PATCH("/:id", handler.Update())
-		bg.DELETE("/:id", handler.Delete())
+		bg.GET("/bydni/:dni", handler.GetByDNI())
+
+		auth.POST("/", handler.Create())
+		auth.PUT("/all/:id", handler.Update())
+		auth.PATCH("/:id", handler.Update())
+		auth.DELETE("/:id", handler.Delete())
 	}
 }
