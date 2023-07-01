@@ -7,6 +7,13 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// @title Dental Office - Final exam
+// @version 1.0
+// @description This API Handle Products.
+// @termsOfService https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
+
+// @contact.name API Support
+// @contact.url https://developers.ctd.com.ar/support
 func main() {
 	config.LoadConfigFromFile()
 	db, err := config.ConnectDatabase()
