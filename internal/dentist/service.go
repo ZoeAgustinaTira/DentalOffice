@@ -1,6 +1,7 @@
 package dentist
 
 import (
+	"errors"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/domain"
 )
 
@@ -81,6 +82,11 @@ func (s *service) UpdateAll(d domain.Dentist) (domain.Dentist, error) {
 }
 
 func (s *service) Delete(id int) error {
+	hasShift := s.repository.HasShifts()
+	if hasShift {
+		return errors.New("the dentist has an assigned shift")
+	}
+
 	err := s.repository.Delete(id)
 	if err != nil {
 		return err

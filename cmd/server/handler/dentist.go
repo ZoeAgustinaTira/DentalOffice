@@ -165,7 +165,7 @@ func (d *Dentist) Delete() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusNotFound, fmt.Sprintf("dentist %d deleted ", id))
+		c.JSON(http.StatusNotFound, fmt.Sprintf("dentist %d deleted", id))
 
 	}
 }

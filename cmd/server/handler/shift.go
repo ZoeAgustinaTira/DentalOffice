@@ -73,11 +73,11 @@ func (s *Shift) Create() gin.HandlerFunc {
 			return
 		}
 
-		/*exist := d.dentistService.Exists(c, req.Enrollment)
-		if exist {
-			c.JSON(http.StatusConflict, "error: the dentist already exist") //409
+		exist := s.shiftService.Exist(req)
+		if exist != nil {
+			c.JSON(http.StatusConflict, exist.Error()) //409
 			return
-		}*/
+		}
 
 		newShift, err := s.shiftService.Save(req)
 		if err != nil {

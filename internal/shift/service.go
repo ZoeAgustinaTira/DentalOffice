@@ -1,6 +1,7 @@
 package shift
 
 import (
+	"errors"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/domain"
 )
 
@@ -11,6 +12,7 @@ type Service interface {
 	UpdateAll(s domain.Shift) (domain.Shift, error)
 	Delete(id int) error
 	GetByDNI(dni string) (domain.Shift, error)
+	Exist(sh domain.Shift) error
 }
 
 type service struct {
@@ -91,6 +93,22 @@ func (s *service) Delete(id int) error {
 	err := s.repository.Delete(id)
 	if err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (s *service) Exist(sh domain.Shift) error {
+	shift, err := s.repository.Exist(sh.Date, sh.Time)
+	if err != nil {
+		return err
+	}
+
+	if shift.PatientID == sh.PatientID {
+		return errors.New("the patient already has a turn")
+	}
+	if shift.DentistID == sh.DentistID {
+		return errors.New("the dentist already has a turn")
 	}
 
 	return nil

@@ -12,6 +12,7 @@ type Repository interface {
 	Update(d domain.Dentist) (domain.Dentist, error)
 	Delete(id int) error
 	Exists(enrollment string) bool
+	HasShifts() bool
 }
 
 const (
@@ -20,6 +21,7 @@ const (
 	UPDATE_DENTIST       = "UPDATE dentists SET name = ?, surname = ?, enrollment = ? WHERE id = ?;"
 	DELETE_DENTIST_BY_ID = "DELETE FROM dentists WHERE id = ?;"
 	EXIST_DENTIST        = "SELECT enrollment FROM dentists WHERE enrollment = ?"
+	HAS_SHIFT            = "SELECT d.* FROM dentists d INNER JOIN shifts s ON d.id = s.dentist_id WHERE dentist_id = d.id;"
 )
 
 type repository struct {
@@ -107,4 +109,13 @@ func (r *repository) Exists(enrollment string) bool {
 	row := r.db.QueryRow(EXIST_DENTIST, enrollment)
 	err := row.Scan(&enrollment)
 	return err == nil
+}
+
+func (r *repository) HasShifts() bool {
+	rows, _ := r.db.Query(HAS_SHIFT)
+
+	if rows != nil {
+		return true
+	}
+	return false
 }

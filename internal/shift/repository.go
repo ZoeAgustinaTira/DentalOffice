@@ -12,6 +12,7 @@ type Repository interface {
 	Update(domain.Shift) (domain.Shift, error)
 	Delete(id int) error
 	GetByDNI(dni string) (domain.Shift, error)
+	Exist(data string, time string) (domain.Shift, error)
 }
 
 const (
@@ -20,6 +21,7 @@ const (
 	GET_SHIFT_BY_DNI   = "SELECT s.* FROM shifts s INNER JOIN patients p ON p.id = s.patient_id where p.dni = ? GROUP BY p.dni;"
 	UPDATE_SHIFT       = "UPDATE shifts SET data = ?, time = ?, dentist_id = ?, patient_id = ? WHERE id = ?;"
 	DELETE_SHIFT_BY_ID = "DELETE FROM shifts WHERE id = ?;"
+	EXIST              = "SELECT * FROM shifts WHERE data = ? AND time = ?;"
 )
 
 type repository struct {
@@ -120,4 +122,17 @@ func (r *repository) Delete(id int) error {
 	}
 
 	return nil
+}
+
+func (r *repository) Exist(data string, time string) (domain.Shift, error) {
+	row, _ := r.db.Query(EXIST, data, time)
+	s := domain.Shift{}
+	for row.Next() {
+		err := row.Scan(&s.ID, &s.Date, &s.Time, &s.DentistID, &s.PatientID)
+		if err != nil {
+			return s, err
+		}
+	}
+
+	return s, nil
 }

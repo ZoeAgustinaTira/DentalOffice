@@ -3,9 +3,9 @@ package routes
 import (
 	"database/sql"
 	"github.com/ZoeAgustinatira/DentalOffice/cmd/server/handler"
-	"github.com/ZoeAgustinatira/DentalOffice/internal/shift"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/dentist"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/patient"
+	"github.com/ZoeAgustinatira/DentalOffice/internal/shift"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,7 +30,7 @@ func (r *router) MapRoutes() {
 	r.rg = r.eng.Group("/dentaloffice")
 	r.buildDentistRoutes()
 	r.buildPatientRoutes()
-  r.buildShiftRoutes()
+	r.buildShiftRoutes()
 }
 
 func (r *router) buildDentistRoutes() {
@@ -72,7 +72,7 @@ func (r *router) buildShiftRoutes() {
 	{
 		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
-    bg.GET("/bydni/:dni", handler.GetByDNI())
+		bg.GET("/bydni/:dni", handler.GetByDNI())
 		bg.PUT("/all/:id", handler.Update())
 		bg.PATCH("/:id", handler.Update())
 		bg.DELETE("/:id", handler.Delete())
