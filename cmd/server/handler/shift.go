@@ -59,14 +59,14 @@ func (s *Shift) GetByID() gin.HandlerFunc {
 // @Description get shift by DNI patient
 // @Accept  json
 // @Produce  json
-// @Param id path int true "id"
+// @Param dni query string true "dni"
 // @Success 200 {object} web.Response
 // @Failure 400 {object} web.Response "bad request"
 // @Failure 404 {object} web.Response "not found"
-// @Router /shifts/bydni/{dni} [get]
+// @Router /shifts/bydni [get]
 func (s *Shift) GetByDNI() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		dni := c.Param("dni")
+		dni := c.Query("dni")
 
 		shift, err := s.shiftService.GetByDNI(dni)
 		if err != nil {

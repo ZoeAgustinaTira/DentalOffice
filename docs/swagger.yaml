@@ -561,17 +561,17 @@ paths:
       summary: Update all Shift by id
       tags:
       - Shifts
-  /shifts/bydni/{dni}:
+  /shifts/bydni:
     get:
       consumes:
       - application/json
       description: get shift by DNI patient
       parameters:
-      - description: id
-        in: path
-        name: id
+      - description: dni
+        in: query
+        name: dni
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:

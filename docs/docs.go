@@ -575,7 +575,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/shifts/bydni/{dni}": {
+        "/shifts/bydni": {
             "get": {
                 "description": "get shift by DNI patient",
                 "consumes": [
@@ -590,10 +590,10 @@ const docTemplate = `{
                 "summary": "Get Shift by DNI patient",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "id",
-                        "name": "id",
-                        "in": "path",
+                        "type": "string",
+                        "description": "dni",
+                        "name": "dni",
+                        "in": "query",
                         "required": true
                     }
                 ],

@@ -72,7 +72,7 @@ func (r *router) buildShiftRoutes() {
 	{
 		bg.POST("/", handler.Create())
 		bg.GET("/:id", handler.GetByID())
-		bg.GET("/bydni/:dni", handler.GetByDNI())
+		bg.GET("/bydni", handler.GetByDNI())
 		bg.PUT("/:id", handler.Update())
 		bg.PATCH("/:id", handler.Update())
 		bg.DELETE("/:id", handler.Delete())
