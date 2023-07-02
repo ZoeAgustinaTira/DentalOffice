@@ -1,0 +1,593 @@
+definitions:
+  domain.Dentist:
+    properties:
+      enrollment:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      surname:
+        type: string
+    type: object
+  domain.Patient:
+    properties:
+      DNI:
+        type: string
+      address:
+        type: string
+      discharge_date:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      surname:
+        type: string
+    type: object
+  domain.Shift:
+    properties:
+      date:
+        type: string
+      dentist_id:
+        type: integer
+      id:
+        type: integer
+      patient_id:
+        type: integer
+      time:
+        type: string
+    type: object
+  web.Response:
+    properties:
+      data: {}
+    type: object
+info:
+  contact:
+    name: API Support
+    url: https://developers.ctd.com.ar/support
+  description: This API Handle Products.
+  termsOfService: https://github.com/ZoeAgustinaTira/DentalOffice/blob/ec8e4d4c7aefae4d1e215ec421d4b1593773840f/README.md
+  title: Dental Office - Final exam
+  version: "1.0"
+paths:
+  /dentists:
+    post:
+      consumes:
+      - application/json
+      description: create dentist
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: Dentist to create
+        in: body
+        name: domain.Dentist
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentist'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: dentist successfully created
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "409":
+          description: 'error: the dentist already exist'
+          schema:
+            $ref: '#/definitions/web.Response'
+        "422":
+          description: 'error: ¡incomplete fields!'
+          schema:
+            $ref: '#/definitions/web.Response'
+        "500":
+          description: error while saving
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Create dentist
+      tags:
+      - Dentists
+  /dentists/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete dentist by id
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Delete dentist by id
+      tags:
+      - Dentists
+    get:
+      consumes:
+      - application/json
+      description: get Dentist by ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Get Dentist by ID
+      tags:
+      - Dentists
+    patch:
+      consumes:
+      - application/json
+      description: update dentist
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dentist to update
+        in: body
+        name: domain.Dentist
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentist'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Update dentist
+      tags:
+      - Dentists
+    put:
+      consumes:
+      - application/json
+      description: update all dentist by id
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dentist to update
+        in: body
+        name: domain.Dentist
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentist'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Update all dentist by id
+      tags:
+      - Dentists
+  /patients:
+    post:
+      consumes:
+      - application/json
+      description: create patient
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: Patient to create
+        in: body
+        name: domain.Patient
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Patient'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: patient successfully created
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "409":
+          description: 'error: the patient already exist'
+          schema:
+            $ref: '#/definitions/web.Response'
+        "422":
+          description: 'error: ¡incomplete fields!'
+          schema:
+            $ref: '#/definitions/web.Response'
+        "500":
+          description: error while saving
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Create Patient
+      tags:
+      - Patients
+  /patients/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete patient by id
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Delete Patient by id
+      tags:
+      - Patients
+    get:
+      consumes:
+      - application/json
+      description: get patient by ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Get Patient by ID
+      tags:
+      - Patients
+    patch:
+      consumes:
+      - application/json
+      description: update patient
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patient to update
+        in: body
+        name: domain.Patient
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Update Patient
+      tags:
+      - Patients
+  /shifts:
+    post:
+      consumes:
+      - application/json
+      description: create shift
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: Shift to create
+        in: body
+        name: domain.Shift
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Shift'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: shift successfully created
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "409":
+          description: 'error: the shift already exist'
+          schema:
+            $ref: '#/definitions/web.Response'
+        "422":
+          description: 'error: ¡incomplete fields!'
+          schema:
+            $ref: '#/definitions/web.Response'
+        "500":
+          description: error while saving
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Create Shift
+      tags:
+      - Shifts
+  /shifts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete shift by id
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Delete Shift by id
+      tags:
+      - Shifts
+    get:
+      consumes:
+      - application/json
+      description: get shift by ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Get Shift by ID
+      tags:
+      - Shifts
+    patch:
+      consumes:
+      - application/json
+      description: update shift
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Shift to update
+        in: body
+        name: domain.Shift
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Shift'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Update Shift
+      tags:
+      - Shifts
+    put:
+      consumes:
+      - application/json
+      description: update all shift by id
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: integer
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Shift to update
+        in: body
+        name: domain.Shift
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Shift'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Update all Shift by id
+      tags:
+      - Shifts
+  /shifts/bydni/{dni}:
+    get:
+      consumes:
+      - application/json
+      description: get shift by DNI patient
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.Response'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/web.Response'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/web.Response'
+      summary: Get Shift by DNI patient
+      tags:
+      - Shifts
+swagger: "2.0"
