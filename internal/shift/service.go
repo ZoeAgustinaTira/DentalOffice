@@ -74,7 +74,7 @@ func (s *service) Update(sh domain.Shift) (domain.Shift, error) {
 		sh.PatientID = shift.PatientID
 	}
 
-	shUpdate, err := s.repository.Update(shift)
+	shUpdate, err := s.repository.Update(sh)
 	if err != nil {
 		return domain.Shift{}, err
 	}

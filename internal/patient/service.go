@@ -79,7 +79,7 @@ func (s *service) Update(p domain.Patient) (domain.Patient, error) {
 }
 
 func (s *service) Delete(ctx context.Context, id int) error {
-	hasShift := s.repository.HasShifts()
+	hasShift := s.repository.HasShifts(id)
 	if hasShift {
 		return errors.New("the patient has an assigned shift")
 	}

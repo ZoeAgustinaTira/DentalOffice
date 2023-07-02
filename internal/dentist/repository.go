@@ -12,7 +12,7 @@ type Repository interface {
 	Update(d domain.Dentist) (domain.Dentist, error)
 	Delete(id int) error
 	Exists(enrollment string) bool
-	HasShifts() bool
+	HasShifts(id int) bool
 }
 
 const (
@@ -111,8 +111,8 @@ func (r *repository) Exists(enrollment string) bool {
 	return err == nil
 }
 
-func (r *repository) HasShifts() bool {
-	rows, _ := r.db.Query(HAS_SHIFT)
+func (r *repository) HasShifts(id int) bool {
+	rows, _ := r.db.Query(HAS_SHIFT, id)
 
 	if rows != nil {
 		return true

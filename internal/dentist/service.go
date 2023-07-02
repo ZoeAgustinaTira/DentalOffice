@@ -82,7 +82,7 @@ func (s *service) UpdateAll(d domain.Dentist) (domain.Dentist, error) {
 }
 
 func (s *service) Delete(id int) error {
-	hasShift := s.repository.HasShifts()
+	hasShift := s.repository.HasShifts(id)
 	if hasShift {
 		return errors.New("the dentist has an assigned shift")
 	}

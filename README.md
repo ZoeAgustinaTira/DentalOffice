@@ -11,9 +11,10 @@ Los pacientes, los dentistas y los turnos pueden:
 * ser modificados por campo o en su totalidad
 * ser eliminados
 
-Ademas, los turnos pueden ser consultados mediante DNI de paciente
+Además, los turnos pueden ser consultados mediante DNI de paciente.
 
 ***Ni pacientes ni dentistas pueden ser eliminados si tienen un turno asignado.***
+
 Para mas informacion direigirse al siguiente [link](docs/swagger.yaml)
 
 ### Lograr que el proyecto funcione
@@ -30,9 +31,10 @@ Datos de importancia:
   TOKEN=1234
   ```
 Donde:
-* DATABASE_PORT dependera de su puerto
-* MYSQL_USER dependera de su usuario
-* DATABASE_PASSWORD dependera de su password
+* DATABASE_PORT dependerá de su puerto
+* MYSQL_USER dependerá de su usuario
+* DATABASE_PASSWORD dependerá de su password
 
 Se debe generar la base de datos encontrada en [el siguiente archivo](db.sql)
 
+Archivo con colección para pruebas en [Postman](postman_collection.json) 
