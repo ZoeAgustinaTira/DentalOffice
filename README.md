@@ -19,14 +19,14 @@ Para mas informacion direigirse al siguiente [link](docs/swagger.yaml)
 
 ### Lograr que el proyecto funcione
 Datos de importancia:
-* Se debe generar un archivo .env en la raiz del priyecto con las siquientes variables:
+* Se debe generar un archivo .env en la raiz del proyecto con las siquientes variables:
 
   ```
   HOST=localhost:8080
-  MYSQL_USER=root
-  DATABASE_PASSWORD=1234
+  MYSQL_USER=<user>
+  DATABASE_PASSWORD=<password>
   DATABASE_URL=localhost
-  DATABASE_PORT=3306
+  DATABASE_PORT=<port>
   DATABASE_NAME=dentaloffice
   TOKEN=1234
   ```
