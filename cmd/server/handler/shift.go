@@ -2,24 +2,24 @@ package handler
 
 import (
 	"fmt"
-	"github.com/ZoeAgustinatira/DentalOffice/internal/dentist"
 	"github.com/ZoeAgustinatira/DentalOffice/internal/domain"
+	"github.com/ZoeAgustinatira/DentalOffice/internal/shift"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
 
-type Dentist struct {
-	dentistService dentist.Service
+type Shift struct {
+	shiftService shift.Service
 }
 
-func NewDentist(d dentist.Service) *Dentist {
-	return &Dentist{
-		dentistService: d,
+func NewShift(s shift.Service) *Shift {
+	return &Shift{
+		shiftService: s,
 	}
 }
 
-func (d *Dentist) GetByID() gin.HandlerFunc {
+func (s *Shift) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
@@ -27,53 +27,71 @@ func (d *Dentist) GetByID() gin.HandlerFunc {
 			return
 		}
 
-		dentist, err := d.dentistService.GetByID(id)
+		shift, err := s.shiftService.GetByID(id)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, err.Error()) //400
 			return
 		}
 
-		var d domain.Dentist
-		if dentist == d {
+		var sh domain.Shift
+		if shift == sh {
 			c.JSON(http.StatusNotFound, err.Error()) //404
 		}
 
-		c.JSON(http.StatusOK, dentist)
+		c.JSON(http.StatusOK, shift)
 	}
 }
 
-func (d *Dentist) Create() gin.HandlerFunc {
+func (s *Shift) GetByDNI() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var req domain.Dentist
+		dni := c.Param("dni")
+
+		shift, err := s.shiftService.GetByDNI(dni)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, err.Error()) //400
+			return
+		}
+
+		var sh domain.Shift
+		if shift == sh {
+			c.JSON(http.StatusNotFound, err.Error()) //404
+		}
+
+		c.JSON(http.StatusOK, shift)
+	}
+}
+func (s *Shift) Create() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var req domain.Shift
 		if err := c.Bind(&req); err != nil {
 			c.JSON(http.StatusBadRequest, err.Error()) //400
 			return
 		}
 
-		if req.Name == "" || req.Surname == "" || req.Enrollment == "" {
+		if req.Date == "" || req.Time == "" || req.DentistID == 0 || req.PatientID == 0 {
 			c.JSON(http.StatusUnprocessableEntity, "error: ¡incomplete fields!") //422
 			return
 		}
 
-		exist := d.dentistService.Exists(req.Enrollment)
-		if exist {
-			c.JSON(http.StatusConflict, "error: the dentist already exist") //409
+		exist := s.shiftService.Exist(req)
+		if exist != nil {
+			c.JSON(http.StatusConflict, exist.Error()) //409
 			return
 		}
 
-		newDentist, err := d.dentistService.Save(req)
+		newShift, err := s.shiftService.Save(req)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, err.Error()) //500
 			return
 		}
 
-		c.JSON(http.StatusCreated, newDentist)
+		c.JSON(http.StatusCreated, newShift)
 	}
 }
 
-func (d *Dentist) Update() gin.HandlerFunc {
+func (s *Shift) Update() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var req domain.Dentist
+		var req domain.Shift
 		if err := c.ShouldBindJSON(&req); err != nil {
 			c.JSON(http.StatusBadRequest, err.Error()) //400
 			return
@@ -87,25 +105,25 @@ func (d *Dentist) Update() gin.HandlerFunc {
 
 		req.ID = id
 
-		dentistUpdate, err := d.dentistService.Update(req)
+		shiftUpdate, err := s.shiftService.Update(req)
 		if err != nil {
 			c.JSON(http.StatusNotFound, err.Error()) //404
 			return
 		}
 
-		var d domain.Dentist
+		var sh domain.Shift
 
-		if dentistUpdate == d {
+		if shiftUpdate == sh {
 			c.JSON(http.StatusNotFound, err.Error()) //404
 		}
 
-		c.JSON(http.StatusOK, dentistUpdate)
+		c.JSON(http.StatusOK, shiftUpdate)
 	}
 }
 
-func (d *Dentist) UpdateAll() gin.HandlerFunc {
+func (s *Shift) UpdateAll() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var req domain.Dentist
+		var req domain.Shift
 		if err := c.ShouldBindJSON(&req); err != nil {
 			c.JSON(http.StatusBadRequest, err.Error()) //400
 			return
@@ -120,38 +138,41 @@ func (d *Dentist) UpdateAll() gin.HandlerFunc {
 		req.ID = id
 
 		var fields []string
-		if req.Name == "" {
-			fields = append(fields, "name")
+		if req.Date == "" {
+			fields = append(fields, "date")
 		}
 
-		if req.Surname == "" {
-			fields = append(fields, "surname")
+		if req.Time == "" {
+			fields = append(fields, "time")
 		}
 
-		if req.Enrollment == "" {
-			fields = append(fields, "enrollment")
+		if req.DentistID == 0 {
+			fields = append(fields, "dentist_id")
+		}
+		if req.PatientID == 0 {
+			fields = append(fields, "patient_id")
 		}
 		if len(fields) != 0 {
 			c.JSON(http.StatusBadRequest, fmt.Sprintf("field is missing: %v", fields)) //400
 		}
 
-		dentistUpdate, err := d.dentistService.UpdateAll(req)
+		shiftUpdate, err := s.shiftService.UpdateAll(req)
 		if err != nil {
 			c.JSON(http.StatusNotFound, err.Error()) //404
 			return
 		}
 
-		var d domain.Dentist
+		var sh domain.Shift
 
-		if dentistUpdate == d {
+		if shiftUpdate == sh {
 			c.JSON(http.StatusNotFound, err.Error()) //404
 		}
 
-		c.JSON(http.StatusOK, dentistUpdate)
+		c.JSON(http.StatusOK, shiftUpdate)
 	}
 }
 
-func (d *Dentist) Delete() gin.HandlerFunc {
+func (s *Shift) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
@@ -159,13 +180,13 @@ func (d *Dentist) Delete() gin.HandlerFunc {
 			return
 		}
 
-		err = d.dentistService.Delete(id)
+		err = s.shiftService.Delete(id)
 		if err != nil {
 			c.JSON(http.StatusNotFound, err.Error()) //404
 			return
 		}
 
-		c.JSON(http.StatusNotFound, fmt.Sprintf("dentist %d deleted", id))
+		c.JSON(http.StatusNotFound, fmt.Sprintf("shift %d deleted ", id))
 
 	}
 }
