@@ -1,0 +1,553 @@
+{
+	"info": {
+		"_postman_id": "3e95145b-246c-40ec-950a-56e8c62e5304",
+		"name": "FinalBackIII",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18041152"
+	},
+	"item": [
+		{
+			"name": "Dentists",
+			"item": [
+				{
+					"name": "GetByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "password",
+								"value": "1234",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "user",
+								"value": "root",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/dentaloffice/dentists/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"dentists",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"pablo\",\r\n    \"surname\": \"tira\",\r\n    \"enrollment\": \"585\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/dentaloffice/dentists",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"dentists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PatchByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Fabiana\",\r\n    \"surname\": \"Aguirre\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/dentaloffice/dentists/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"dentists",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Zoe\",\r\n    \"surname\": \"Tira\",\r\n    \"enrollment\": \"585\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/dentaloffice/dentists/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"dentists",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/dentaloffice/dentists/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"dentists",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patients",
+			"item": [
+				{
+					"name": "GetByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "password",
+								"value": "1234",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "user",
+								"value": "root",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/dentaloffice/patients/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"patients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Homero\",\r\n    \"surname\": \"Simpson\",\r\n    \"address\": \"Av. Siempre viva\",\r\n    \"DNI\": \"2021\",\r\n    \"discharge_date\": \"12-12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/dentaloffice/patients",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PatchByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Marge\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/dentaloffice/patients/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"patients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Maggie\",\r\n    \"surname\": \"Simpson\",\r\n    \"address\": \"Av. Siempre viva 12\",\r\n    \"DNI\": \"52\",\r\n    \"discharge_date\": \"02-03\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/dentaloffice/patients/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"patients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/dentaloffice/patients/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"patients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shifts",
+			"item": [
+				{
+					"name": "GetByID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "password",
+								"value": "1234",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "user",
+								"value": "root",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/dentaloffice/shifts/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"shifts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByDNI",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "password",
+								"value": "1234",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "user",
+								"value": "root",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/dentaloffice/shifts/bydni?dni=4642",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"shifts",
+								"bydni"
+							],
+							"query": [
+								{
+									"key": "dni",
+									"value": "4642"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"1-1\",\r\n    \"time\": \"12:40\",\r\n    \"dentist_id\": 1,\r\n    \"patient_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/dentaloffice/shifts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"shifts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PatchByID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"time\": \"12:40\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/dentaloffice/shifts/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"shifts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"1-1\",\r\n    \"time\": \"13:10\",\r\n    \"dentist_id\": 2,\r\n    \"patient_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/dentaloffice/shifts/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"shifts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteByID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/dentaloffice/shifts/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dentaloffice",
+								"shifts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

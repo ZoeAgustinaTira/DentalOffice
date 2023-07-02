@@ -19,6 +19,17 @@ func NewPatient(p patient.Service) *Patient {
 	}
 }
 
+// GetByID PatientByID godoc
+// @Summary Get Patient by ID
+// @Tags Patients
+// @Description get patient by ID
+// @Accept  json
+// @Produce  json
+// @Param id path int true "id"
+// @Success 200 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /patients/{id} [get]
 func (p *Patient) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		println("GetByID")
@@ -43,6 +54,20 @@ func (p *Patient) GetByID() gin.HandlerFunc {
 	}
 }
 
+// Create CreatePatient godoc
+// @Summary Create Patient
+// @Tags Patients
+// @Description create patient
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param domain.Patient body domain.Patient true "Patient to create"
+// @Success 201 {object} web.Response "patient successfully created"
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 409 {object} web.Response "error: the patient already exist"
+// @Failure 422 {object} web.Response "error: ¡incomplete fields!"
+// @Failure 500 {object} web.Response "error while saving"
+// @Router /patients [post]
 func (p *Patient) Create() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req domain.Patient
@@ -72,6 +97,19 @@ func (p *Patient) Create() gin.HandlerFunc {
 	}
 }
 
+// Update UpdatePatient godoc
+// @Summary Update Patient
+// @Tags Patients
+// @Description update patient
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param id path int true "id"
+// @Param domain.Patient body domain.Patient true "Patient to update"
+// @Success 200 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /patients/{id} [patch]
 func (p *Patient) Update() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req domain.Patient
@@ -104,6 +142,18 @@ func (p *Patient) Update() gin.HandlerFunc {
 	}
 }
 
+// Delete DeletePatient godoc
+// @Summary Delete Patient by id
+// @Tags Patients
+// @Description delete patient by id
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param id path int true "id"
+// @Success 204 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /patients/{id} [delete]
 func (p *Patient) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))

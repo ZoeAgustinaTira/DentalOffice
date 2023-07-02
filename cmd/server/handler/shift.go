@@ -19,6 +19,17 @@ func NewShift(s shift.Service) *Shift {
 	}
 }
 
+// GetByID ShiftByID godoc
+// @Summary Get Shift by ID
+// @Tags Shifts
+// @Description get shift by ID
+// @Accept  json
+// @Produce  json
+// @Param id path int true "id"
+// @Success 200 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /shifts/{id} [get]
 func (s *Shift) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
@@ -42,9 +53,20 @@ func (s *Shift) GetByID() gin.HandlerFunc {
 	}
 }
 
+// GetByDNI ShiftByDNI godoc
+// @Summary Get Shift by DNI patient
+// @Tags Shifts
+// @Description get shift by DNI patient
+// @Accept  json
+// @Produce  json
+// @Param dni query string true "dni"
+// @Success 200 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /shifts/bydni [get]
 func (s *Shift) GetByDNI() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		dni := c.Param("dni")
+		dni := c.Query("dni")
 
 		shift, err := s.shiftService.GetByDNI(dni)
 		if err != nil {
@@ -60,6 +82,21 @@ func (s *Shift) GetByDNI() gin.HandlerFunc {
 		c.JSON(http.StatusOK, shift)
 	}
 }
+
+// Create CreateShift godoc
+// @Summary Create Shift
+// @Tags Shifts
+// @Description create shift
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param domain.Shift body domain.Shift true "Shift to create"
+// @Success 201 {object} web.Response "shift successfully created"
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 409 {object} web.Response "error: the shift already exist"
+// @Failure 422 {object} web.Response "error: ¡incomplete fields!"
+// @Failure 500 {object} web.Response "error while saving"
+// @Router /shifts [post]
 func (s *Shift) Create() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req domain.Shift
@@ -89,6 +126,19 @@ func (s *Shift) Create() gin.HandlerFunc {
 	}
 }
 
+// Update UpdateShift godoc
+// @Summary Update Shift
+// @Tags Shifts
+// @Description update shift
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param id path int true "id"
+// @Param domain.Shift body domain.Shift true "Shift to update"
+// @Success 200 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /shifts/{id} [patch]
 func (s *Shift) Update() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req domain.Shift
@@ -121,6 +171,19 @@ func (s *Shift) Update() gin.HandlerFunc {
 	}
 }
 
+// UpdateAll UpdateAllShift godoc
+// @Summary Update all Shift by id
+// @Tags Shifts
+// @Description update all shift by id
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param id path int true "id"
+// @Param domain.Shift body domain.Shift true "Shift to update"
+// @Success 200 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /shifts/{id} [put]
 func (s *Shift) UpdateAll() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req domain.Shift
@@ -172,6 +235,18 @@ func (s *Shift) UpdateAll() gin.HandlerFunc {
 	}
 }
 
+// Delete DeleteShift godoc
+// @Summary Delete Shift by id
+// @Tags Shifts
+// @Description delete shift by id
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param id path int true "id"
+// @Success 204 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /shifts/{id} [delete]
 func (s *Shift) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
@@ -186,7 +261,6 @@ func (s *Shift) Delete() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusNotFound, fmt.Sprintf("shift %d deleted ", id))
-
+		c.JSON(http.StatusNoContent, fmt.Sprintf("shift %d deleted ", id))
 	}
 }
