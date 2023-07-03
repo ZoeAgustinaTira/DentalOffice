@@ -43,7 +43,6 @@ func (r *router) buildDentistRoutes() {
 	auth := r.rg.Group("/dentists", middleware.TokenAuthMiddleware())
 	{
 		bg.GET("/:id", handler.GetByID())
-
 		auth.POST("/", handler.Create())
 		auth.PUT("/all/:id", handler.UpdateAll())
 		auth.PATCH("/:id", handler.Update())
@@ -60,7 +59,6 @@ func (r *router) buildPatientRoutes() {
 	auth := r.rg.Group("/patients", middleware.TokenAuthMiddleware())
 	{
 		bg.GET("/:id", handler.GetByID())
-
 		auth.POST("/", handler.Create())
 		auth.PUT("/:id", handler.Update())
 		auth.PATCH("/:id", handler.Update())
@@ -78,7 +76,6 @@ func (r *router) buildShiftRoutes() {
 	{
 		bg.GET("/:id", handler.GetByID())
 		bg.GET("/bydni/:dni", handler.GetByDNI())
-
 		auth.POST("/", handler.Create())
 		auth.PUT("/all/:id", handler.Update())
 		auth.PATCH("/:id", handler.Update())

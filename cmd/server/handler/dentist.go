@@ -19,6 +19,17 @@ func NewDentist(d dentist.Service) *Dentist {
 	}
 }
 
+// GetByID DentistByID godoc
+// @Summary Get Dentist by ID
+// @Tags Dentists
+// @Description get Dentist by ID
+// @Accept  json
+// @Produce  json
+// @Param id path int true "id"
+// @Success 200 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /dentists/{id} [get]
 func (d *Dentist) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
@@ -42,6 +53,20 @@ func (d *Dentist) GetByID() gin.HandlerFunc {
 	}
 }
 
+// Create CreateDentist godoc
+// @Summary Create dentist
+// @Tags Dentists
+// @Description create dentist
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param domain.Dentist body domain.Dentist true "Dentist to create"
+// @Success 201 {object} web.Response "dentist successfully created"
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 409 {object} web.Response "error: the dentist already exist"
+// @Failure 422 {object} web.Response "error: ¡incomplete fields!"
+// @Failure 500 {object} web.Response "error while saving"
+// @Router /dentists [post]
 func (d *Dentist) Create() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req domain.Dentist
@@ -71,6 +96,19 @@ func (d *Dentist) Create() gin.HandlerFunc {
 	}
 }
 
+// Update UpdateDentist godoc
+// @Summary Update dentist
+// @Tags Dentists
+// @Description update dentist
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param id path int true "id"
+// @Param domain.Dentist body domain.Dentist true "Dentist to update"
+// @Success 200 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /dentists/{id} [patch]
 func (d *Dentist) Update() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req domain.Dentist
@@ -103,6 +141,19 @@ func (d *Dentist) Update() gin.HandlerFunc {
 	}
 }
 
+// UpdateAll UpdateAllDentist godoc
+// @Summary Update all dentist by id
+// @Tags Dentists
+// @Description update all dentist by id
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param id path int true "id"
+// @Param domain.Dentist body domain.Dentist true "Dentist to update"
+// @Success 200 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /dentists/{id} [put]
 func (d *Dentist) UpdateAll() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req domain.Dentist
@@ -151,6 +202,18 @@ func (d *Dentist) UpdateAll() gin.HandlerFunc {
 	}
 }
 
+// Delete DeleteDentist godoc
+// @Summary Delete dentist by id
+// @Tags Dentists
+// @Description delete dentist by id
+// @Accept  json
+// @Produce  json
+// @Param token header int true "token"
+// @Param id path int true "id"
+// @Success 204 {object} web.Response
+// @Failure 400 {object} web.Response "bad request"
+// @Failure 404 {object} web.Response "not found"
+// @Router /dentists/{id} [delete]
 func (d *Dentist) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
@@ -165,7 +228,7 @@ func (d *Dentist) Delete() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusNotFound, fmt.Sprintf("dentist %d deleted ", id))
+		c.JSON(http.StatusNoContent, fmt.Sprintf("dentist %d deleted", id))
 
 	}
 }
